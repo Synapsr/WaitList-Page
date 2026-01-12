@@ -32,12 +32,12 @@ RUN mkdir -p /data && chown -R nobody:nobody /data
 # Use non-root user
 USER nobody
 
-# Expose port
+# Expose default port
 EXPOSE 3000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1
+# Health check (uses PORT env var, defaults to 3000)
+HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=3 \
+    CMD sh -c 'wget --no-verbose --tries=1 --spider http://localhost:${PORT:-3000}/api/health || exit 1'
 
 # Run
 ENTRYPOINT ["/app/waitlist"]
