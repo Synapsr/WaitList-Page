@@ -1,0 +1,32 @@
+services:
+  waitlist:
+    build: .
+    # Or use pre-built image:
+    # image: ghcr.io/synapsr/waitlist-page:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/data
+    environment:
+      # Display Configuration
+      - TITLE=Something awesome is coming
+      - SUBTITLE=Be the first to know when we launch. Join our waitlist today.
+      # - LOGO_URL=https://example.com/logo.png
+      - PRIMARY_COLOR=#6366f1
+      - THEME=light
+
+      # Countdown (optional - ISO 8601 format)
+      # - COUNTDOWN_DATE=2024-12-31T00:00:00Z
+
+      # Form customization
+      - BUTTON_TEXT=Join Waitlist
+      - PLACEHOLDER=Enter your email
+      - SUCCESS_MESSAGE=You're on the list!
+
+      # Storage (default: json)
+      - STORAGE_TYPE=json
+
+      # Admin access (optional)
+      # - ADMIN_TOKEN=your-secret-token
+
+    restart: unless-stopped

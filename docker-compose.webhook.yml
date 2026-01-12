@@ -1,0 +1,19 @@
+# Example: Webhook integration (Zapier, Make, n8n, custom API)
+services:
+  waitlist:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - TITLE=Join Our Beta
+      - SUBTITLE=Get early access to our upcoming product launch
+      - PRIMARY_COLOR=#10b981
+      - THEME=dark
+
+      # Webhook configuration
+      - STORAGE_TYPE=webhook
+      - WEBHOOK_URL=https://hooks.zapier.com/hooks/catch/xxx/xxx/
+      # Optional: HMAC signature for webhook verification
+      # - WEBHOOK_SECRET=your-webhook-secret
+
+    restart: unless-stopped
