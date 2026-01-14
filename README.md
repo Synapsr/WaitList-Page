@@ -1,5 +1,14 @@
 # Waitlist
 
+Ce dépôt contient deux projets de waitlist :
+
+1. **Waitlist Page (Go)** - Une page de waitlist simple et légère déployable en une commande Docker
+2. **Waitlist SaaS (Next.js)** - Une application SaaS complète pour créer et gérer plusieurs pages de waitlist avec authentification et dashboard (dans le dossier `nextjs-saas/`)
+
+---
+
+## 🚀 Waitlist Page (Go)
+
 A beautiful, dead-simple waitlist page that deploys in seconds. One Docker command, zero configuration required.
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
@@ -217,3 +226,52 @@ Create a new Web Service, connect your repo, and set environment variables in th
 ## License
 
 MIT
+
+---
+
+## 🎯 Waitlist SaaS (Next.js)
+
+Une application SaaS complète pour créer et gérer plusieurs pages de waitlist avec authentification et dashboard.
+
+### Fonctionnalités
+
+- ✅ **Authentification complète** : Inscription et connexion sécurisées
+- ✅ **Dashboard intuitif** : Gérez toutes vos waitlists depuis un seul endroit
+- ✅ **Personnalisation complète** : Couleurs, logo, contenu personnalisables
+- ✅ **Gestion des abonnés** : Visualisez et exportez vos inscriptions en CSV
+- ✅ **Pages publiques** : URLs personnalisables pour chaque waitlist (`/w/[slug]`)
+- ✅ **Champs personnalisables** : Collectez nom, email, entreprise selon vos besoins
+
+### Technologies
+
+- **Next.js 16** avec App Router
+- **TypeScript** pour la sécurité de type
+- **Prisma** avec SQLite (facilement migrable vers PostgreSQL)
+- **NextAuth.js** pour l'authentification
+- **Tailwind CSS** pour le styling
+- **bcryptjs** pour le hachage des mots de passe
+
+### Installation
+
+```bash
+cd nextjs-saas
+npm install
+npx prisma migrate dev
+npx prisma generate
+```
+
+Configurez les variables d'environnement dans `.env.local` :
+
+```env
+DATABASE_URL="file:./dev.db"
+NEXTAUTH_SECRET="votre-secret-key-changez-en-production"
+NEXTAUTH_URL="http://localhost:3000"
+```
+
+Lancez le serveur de développement :
+
+```bash
+npm run dev
+```
+
+Pour plus de détails, consultez le [README du projet Next.js](./nextjs-saas/README.md).

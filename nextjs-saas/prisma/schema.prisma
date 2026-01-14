@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  waitlists Waitlist[]
+}
+
+model Waitlist {
+  id          String   @id @default(cuid())
+  userId      String
+  slug        String   @unique
+  title       String
+  description String?
+  headline    String
+  subheadline String?
+  
+  // Personnalisation
+  theme          String   @default("dark-modern") // dark-modern, light-minimal, light-gray, vibrant-purple
+  primaryColor   String   @default("#000000")
+  backgroundColor String  @default("#ffffff")
+  logoUrl        String?
+  
+  // Paramètres
+  collectName    Boolean  @default(true)
+  collectCompany Boolean  @default(false)
+  customFields   String?  // JSON pour champs personnalisés
+  
+  // Countdown
+  countdownEnabled Boolean @default(false)
+  countdownDate    DateTime?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscribers Subscriber[]
+  
+  @@index([userId])
+  @@index([slug])
+}
+
+model Subscriber {
+  id        String   @id @default(cuid())
+  waitlistId String
+  email     String
+  name      String?
+  company   String?
+  customData String? // JSON pour données personnalisées
+  position  Int      // Position dans la waitlist
+  
+  createdAt DateTime @default(now())
+  
+  waitlist Waitlist @relation(fields: [waitlistId], references: [id], onDelete: Cascade)
+  
+  @@unique([waitlistId, email])
+  @@index([waitlistId])
+}
